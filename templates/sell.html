@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <title>Bid Bazaar</title>
+
+  <link rel="icon" href="/static/images/Logo-auction.png">
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="/static/css/fontawesome.css">
+  <link rel="stylesheet" href="/static/css/templatemo-plot-listing.css">
+  <link rel="stylesheet" href="/static/css/animated.css">
+  <link rel="stylesheet" href="/static/css/owl.css">
+
+  <!--Forn CSS-->
+  <style>
+    body {
+      font-family: Arial;
+    }
+
+    input[type=text], input[type=file], input[type=datetime-local], input[type=number], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      background-color: #323238;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+
+    div.container-fluid {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    .sell-form {
+      background-color: #8d99af;
+      padding: 10px 10px 10px 10px;
+    }
+  </style>
+  <!--
+
+TemplateMo 564 Plot Listing
+
+https://templatemo.com/tm-564-plot-listing
+
+-->
+</head>
+
+<body>
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Logo Start ***** -->
+            <a href="{% url 'index' %}" class="logo">
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li><a href="{% url 'index' %}">Home</a></li>
+              <li><a href="{% url 'buy' %}">Buy</a></li>
+              <li><a href="{% url 'sell' %}" class="active">Sell</a></li>
+              <li><a href="{% url 'contact' %}">Contact Us</a></li>
+              <li>
+                <div class="main-white-button">
+                  {% if user.is_authenticated %}
+                  <a href="{% url 'signout' %}">Logout</a>
+                  {% else %}
+                  <a href="{% url 'log_form' %}">Login</a>
+                  {% endif %} 
+                  </div>
+              </li>
+            </ul>
+            <a class='menu-trigger'>
+              <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="top-text header-text">
+            <h6>Looking to maximize profits by competitive bidding?</h6>
+            <h2>Fill out this form to list an item</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Sell-form-start-->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="sell-form">
+        <div class="container">
+          <form action="{% url 'sell_form' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="iname">Item Name</label>
+            <input type="text" id="iname" name="item-name" placeholder="Item Name">
+
+            <label for="idesc">Item Description</label>
+            <input type="text" id="idesc" name="item-desc" placeholder="Enter description of your item">
+
+            <label for="iimg">Upload image</label>
+            <input type="file" id="iimg" name="item-img" >
+
+            <label for="icategory">Category</label>
+            <select id="icategory" name="item-category">
+              {% for item in itemcat %}
+              <option value="{{ item.0 }}">{{ item.1 }}</option>
+              {% endfor %}
+            </select>
+
+            <label for="ibase">Base Prize</label>
+            <input type="number" id="ibase" name="item-base" placeholder="₹">
+
+            <label for="iincr">Increment Prize</label>
+            <input type="number" id="iincr" name="item-incr" placeholder="₹ ">
+
+            <label for="istart">Start Auction</label><br>
+            <input type="datetime-local" id="istart" name="item-start">
+
+            <label for="iend">End Auction</label><br>
+            <input type="datetime-local" id="iend" name="item-end">
+
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Sell-form-end-->
+
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="sub-footer">
+            <p>Copyright © 2023 Bid Bazaar Co., Ltd. All Rights Reserved.
+            <br>
+			<!-- Design: <a rel="nofollow" href="https://templatemo.com" title="CSS Templates">TemplateMo</a></p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/static/jquery/jquery.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/owl-carousel.js"></script>
+  <script src="/static/js/animation.js"></script>
+  <script src="/static/js/imagesloaded.js"></script>
+  <script src="/static/js/custom.js"></script>
+
+</body>
+
+</html>
